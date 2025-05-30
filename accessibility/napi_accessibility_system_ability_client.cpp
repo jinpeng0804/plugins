@@ -81,7 +81,7 @@ napi_value NAccessibilityClient::IsOpenAccessibilitySync(napi_env env, napi_call
 {
     bool status = false;
 #ifdef IOS_PLATFORM
-    status = GetAccessibilityEnabledOC();
+    status = getAccessibilityEnabledOC();
 #endif
 #ifdef ANDROID_PLATFORM
     status = AccessibilitySystemAbilityClientImpl::IsEnable();
@@ -126,7 +126,7 @@ napi_value NAccessibilityClient::SubscribeState(napi_env env, napi_callback_info
         AccessibilitySystemAbilityClientImpl::RegisterAccessibilityStateListener();
 #endif
 #ifdef IOS_PLATFORM
-        SubscribeStateOC();
+        subscribeStateOC();
 #endif
     }
 
@@ -166,7 +166,7 @@ napi_value NAccessibilityClient::UnsubscribeState(napi_env env, napi_callback_in
         AccessibilitySystemAbilityClientImpl::UnregisterAccessibilityStateListener();
 #endif
 #ifdef IOS_PLATFORM
-        UnSubscribeStateOC();
+        unsubscribeStateOC();
 #endif
     }
     return nullptr;

@@ -15,8 +15,9 @@
 
 #ifndef PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_BRIDGE_H
 #define PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_BRIDGE_H
- bool GetAccessibilityEnabledOC();
- void SubscribeStateOC();
- void UnSubscribeStateOC();
- 
- #endif // PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_BRIDGE_H
+
+bool getAccessibilityEnabledOC();
+void subscribeStateOC();
+void unsubscribeStateOC();
+
+#endif // PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_BRIDGE_H

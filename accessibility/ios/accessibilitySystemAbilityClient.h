@@ -13,11 +13,15 @@
  * limitations under the License.
  */
 
+#ifndef PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_CLIENT_H
+#define PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_CLIENT_H
+
 #import <Foundation/Foundation.h>
 
 @interface AccessibilitySystemAbilityClient : NSObject
-+ (instancetype)sharedInstance;
-- (bool)GetAccessibilityEnabled;
-- (void)SubscribeState:(void (^)(bool state))block;
-- (void)UnSubscribeState:(void (^)(bool state))block;;
++ (instancetype) sharedInstance;
+- (bool) getAccessibilityEnabled;
+- (void) subscribeState:(void (^)(bool state))block;
+- (void) unsubscribeState:(void (^)(bool state))block;
 @end
+#endif // PLUGIN_ACCESSIBILITY_IOS_ACCESSIBILITY_SYSTEM_ABILITY_CLIENT_H

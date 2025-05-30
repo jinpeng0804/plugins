@@ -20,19 +20,19 @@
 
 #import "accessibilitySystemAbilityClient.h"
 
-bool GetAccessibilityEnabledOC()
+bool getAccessibilityEnabledOC()
 {
-    return [[AccessibilitySystemAbilityClient sharedInstance] GetAccessibilityEnabled];
+    return [[AccessibilitySystemAbilityClient sharedInstance] getAccessibilityEnabled];
 }
 
-void SubscribeStateOC()
+void subscribeStateOC()
 {
-    [[AccessibilitySystemAbilityClient sharedInstance] SubscribeState:^(bool state) {
+    [[AccessibilitySystemAbilityClient sharedInstance] subscribeState:^(bool state) {
         OHOS::Plugin::AccessibilitySystemAbilityEventCallback::ExcuteEventCallback("accessibilityStateChange", state);
     }];
 }
 
-void UnSubscribeStateOC()
+void unsubscribeStateOC()
 {
-    [[AccessibilitySystemAbilityClient sharedInstance] UnSubscribeState:^(bool state) {}];
+    [[AccessibilitySystemAbilityClient sharedInstance] unsubscribeState:^(bool state) {}];
 }

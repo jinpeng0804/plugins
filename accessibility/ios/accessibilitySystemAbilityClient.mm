@@ -46,12 +46,12 @@ typedef void (^ScribeStateBlock)(bool state);
     return self;
 }
 
-- (BOOL)GetAccessibilityEnabled
+- (bool)getAccessibilityEnabled
 {
     return UIAccessibilityIsVoiceOverRunning();
 }
 
-- (void)SubscribeState:(void (^)(bool state))block
+- (void)subscribeState:(void (^)(bool state))block
 {
     if (!block || self.observerRegistered) {
         return;
@@ -74,7 +74,7 @@ typedef void (^ScribeStateBlock)(bool state);
     self.observerRegistered = true;
 }
 
-- (void)UnSubscribeState:(void (^)(bool state))block
+- (void)unsubscribeState:(void (^)(bool state))block
 {
     if (!block) {
         self.scribeStateBlock = nil;
