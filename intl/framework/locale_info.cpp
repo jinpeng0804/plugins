@@ -21,6 +21,7 @@
 #include "unicode/localebuilder.h"
 #include "ohos/init_data.h"
 #include "locale_config.h"
+#include "log.h"
 
 namespace OHOS {
 namespace Global {
@@ -71,6 +72,7 @@ void LocaleInfo::InitLocaleInfo(const std::string &localeTag, std::map<std::stri
     if (localeTag != "") {
         ComputeFinalLocaleTag(localeTag);
         locale = icu::Locale::forLanguageTag(icu::StringPiece(finalLocaleTag), status);
+        LOGE("wjTest: InitLocaleInfo finalLocaleTag: %{public}s", finalLocaleTag.c_str());
     }
     if (localeTag == "" || status != U_ZERO_ERROR) {
         std::string defaultLocaleTag = LocaleConfig::GetSystemLocale();
@@ -78,6 +80,7 @@ void LocaleInfo::InitLocaleInfo(const std::string &localeTag, std::map<std::stri
         ComputeFinalLocaleTag(defaultLocaleTag);
         status = U_ZERO_ERROR;
         locale = icu::Locale::forLanguageTag(icu::StringPiece(finalLocaleTag), status);
+        LOGE("wjTest: InitLocaleInfo defaultLocaleTag finalLocaleTag is: %{public}s", finalLocaleTag.c_str());
     }
     if (status == U_ZERO_ERROR) {
         localeStatus = true;
@@ -152,6 +155,7 @@ void LocaleInfo::ParseLocaleTag(const std::string &localeTag)
     if (localeTag.find(numberingSystemTag) != std::string::npos) {
         numberingSystem = localeTag.substr(localeTag.find(numberingSystemTag) + CONFIG_TAG_LEN);
         numberingSystem = numberingSystem.substr(0, numberingSystem.find(flag));
+        LOGE("wjTest: localeInfo ParseLocaleTag numberingSystem is: %{public}s", numberingSystem.c_str());
     }
     if (localeTag.find(calendarTag) != std::string::npos) {
         calendar = localeTag.substr(localeTag.find(calendarTag) + CONFIG_TAG_LEN);
@@ -184,6 +188,7 @@ void LocaleInfo::ParseConfigs()
     }
     if (configs.count("numberingSystem") > 0) {
         numberingSystem = configs["numberingSystem"];
+        LOGE("wjTest: localeInfo ParseLocaleTag numberingSystem is: %{public}s", numberingSystem.c_str());
     }
     if (configs.count("calendar") > 0) {
         calendar = configs["calendar"];

@@ -14,6 +14,8 @@
  */
 #include "number_format.h"
 
+#include "log.h"
+
 #include "ohos/init_data.h"
 #include "locale_config.h"
 #include "utils.h"
@@ -110,6 +112,7 @@ NumberFormat::NumberFormat(const std::vector<std::string> &localeTags, std::map<
     }
     if (!createSuccess) {
         std::string systemLocale = LocaleConfig::GetSystemLocaleWithExtParam();
+        LOGE("wjTest: LocaleConfig GetSystemLocaleWithExtParam is: %{public}s", systemLocale.c_str());
         localeInfo = std::make_unique<LocaleInfo>(systemLocale, configs);
         CreateRelativeTimeFormat(systemLocale);
         if (localeInfo->InitSuccess()) {
@@ -124,6 +127,8 @@ NumberFormat::NumberFormat(const std::vector<std::string> &localeTags, std::map<
     }
     if (createSuccess) {
         InitProperties();
+        std::string numberingSystemInfo = localeInfo->GetNumberingSystem();
+        LOGE("wjTest: localeInfo NumberingSystem is: %{public}s", numberingSystemInfo.c_str());
     }
 }
 
@@ -362,6 +367,7 @@ std::string NumberFormat::Format(double number)
     std::string result;
     UErrorCode status = U_ZERO_ERROR;
     numberFormat.formatDouble(finalNumber, status).toString(status).toUTF8String(result);
+    LOGE("wjTest: number format result is: %{public}s", result.c_str());
     return result;
 }
 
