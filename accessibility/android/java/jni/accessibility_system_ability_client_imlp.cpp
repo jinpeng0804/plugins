@@ -20,16 +20,16 @@
 namespace OHOS::Plugin {
 bool AccessibilitySystemAbilityClientImpl::IsEnable()
 {
-    return AccessibilitySystemAbilityClientJni::IsEnable();
+    return AccessibilityClientJni::IsEnable();
 }
 
 int AccessibilitySystemAbilityClientImpl::RegisterAccessibilityStateListener()
 {
-    return AccessibilitySystemAbilityClientJni::RegisterAccessibilityStateListener();
+    return AccessibilityClientJni::RegisterStateListener();
 }
 
 void AccessibilitySystemAbilityClientImpl::UnregisterAccessibilityStateListener()
 {
-    AccessibilitySystemAbilityClientJni::UnregisterAccessibilityStateListener();
+    AccessibilityClientJni::UnregisterStateListener();
 }
 } // namespace OHOS::Plugin

@@ -30,9 +30,7 @@ void AccessibilitySystemAbilityEventCallback::InsetEventCallback(
     }
 
     auto callbackInfo = std::make_shared<AccessibilitySystemAbilityEventCallbackInfo>(env, eventCallback);
-    if (callbackInfo) {
-        callbackMap_[eventName] = callbackInfo;
-    }
+    callbackMap_[eventName] = callbackInfo;
 }
 
 void AccessibilitySystemAbilityEventCallback::DeleteEventCallback(const std::string& eventName)

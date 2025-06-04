@@ -27,10 +27,10 @@ static const JNINativeMethod METHODS[] = {
     {
         "nativeInit",
         "()V",
-        reinterpret_cast<void*>(&AccessibilitySystemAbilityClientJni::NativeInit),
+        reinterpret_cast<void*>(&AccessibilityClientJni::NativeInit),
     },
     { "onAccessibilityStateChangedCallback", "(Z)V",
-        reinterpret_cast<void*>(&AccessibilitySystemAbilityClientJni::OnAccessibilityStateChangedCallback) },
+        reinterpret_cast<void*>(&AccessibilityClientJni::OnStateChangedCallback) },
 };
 
 static const char IS_ACCESSIBILITY_ENABLED_METHOD[] = "isAccessibilityEnabled";
@@ -48,7 +48,7 @@ struct {
 } g_accessibilityClass;
 } // namespace
 
-bool AccessibilitySystemAbilityClientJni::Register(void* env)
+bool AccessibilityClientJni::Register(void* env)
 {
     JNIEnv* jniEnv = reinterpret_cast<JNIEnv*>(env);
     CHECK_NULL_RETURN(jniEnv, false);
@@ -57,13 +57,13 @@ bool AccessibilitySystemAbilityClientJni::Register(void* env)
     bool ret = jniEnv->RegisterNatives(cls, METHODS, sizeof(METHODS) / sizeof(METHODS[0])) == 0;
     jniEnv->DeleteLocalRef(cls);
     if (!ret) {
-        LOGE("AccessibilitySystemAbilityClientJni JNI: RegisterNatives fail.");
+        LOGE("AccessibilityClientJni JNI: RegisterNatives fail.");
         return false;
     }
     return true;
 }
 
-void AccessibilitySystemAbilityClientJni::NativeInit(JNIEnv* env, jobject jobj)
+void AccessibilityClientJni::NativeInit(JNIEnv* env, jobject jobj)
 {
     CHECK_NULL_VOID(env);
     g_accessibilityClass.globalRef = env->NewGlobalRef(jobj);
@@ -80,36 +80,53 @@ void AccessibilitySystemAbilityClientJni::NativeInit(JNIEnv* env, jobject jobj)
     env->DeleteLocalRef(cls);
 }
 
-bool AccessibilitySystemAbilityClientJni::IsEnable()
+bool AccessibilityClientJni::IsEnable()
 {
     auto env = ARKUI_X_Plugin_GetJniEnv();
     CHECK_NULL_RETURN(env, false);
     CHECK_NULL_RETURN(g_accessibilityClass.globalRef, false);
     CHECK_NULL_RETURN(g_accessibilityClass.isAccessibilityEnabled, false);
-    return env->CallBooleanMethod(g_accessibilityClass.globalRef, g_accessibilityClass.isAccessibilityEnabled);
+    bool status = env->CallBooleanMethod(g_accessibilityClass.globalRef, g_accessibilityClass.isAccessibilityEnabled);
+    if (env->ExceptionCheck()) {
+        LOGE("AccessibilityClientJni: call IsEnable failed");
+        env->ExceptionDescribe();
+        env->ExceptionClear();
+        return false;
+    }
+    return status;
 }
 
-void AccessibilitySystemAbilityClientJni::OnAccessibilityStateChangedCallback(JNIEnv* env, jobject jobj, bool state)
+void AccessibilityClientJni::OnStateChangedCallback(JNIEnv* env, jobject jobj, bool state)
 {
     AccessibilitySystemAbilityEventCallback::ExcuteEventCallback("accessibilityStateChange", state);
 }
 
-bool AccessibilitySystemAbilityClientJni::RegisterAccessibilityStateListener()
+bool AccessibilityClientJni::RegisterStateListener()
 {
     auto env = ARKUI_X_Plugin_GetJniEnv();
     CHECK_NULL_RETURN(env, false);
     CHECK_NULL_RETURN(g_accessibilityClass.globalRef, false);
     CHECK_NULL_RETURN(g_accessibilityClass.registerAccessibilityStateListener, false);
     env->CallVoidMethod(g_accessibilityClass.globalRef, g_accessibilityClass.registerAccessibilityStateListener);
+    if (env->ExceptionCheck()) {
+        LOGE("AccessibilityClientJni: call RegisterStateListener failed");
+        env->ExceptionDescribe();
+        env->ExceptionClear();
+    }
     return true;
 }
 
-void AccessibilitySystemAbilityClientJni::UnregisterAccessibilityStateListener()
+void AccessibilityClientJni::UnregisterStateListener()
 {
     auto env = ARKUI_X_Plugin_GetJniEnv();
     CHECK_NULL_VOID(env);
     CHECK_NULL_VOID(g_accessibilityClass.globalRef);
     CHECK_NULL_VOID(g_accessibilityClass.unRegisterAccessibilityStateListener);
     env->CallVoidMethod(g_accessibilityClass.globalRef, g_accessibilityClass.unRegisterAccessibilityStateListener);
+    if (env->ExceptionCheck()) {
+        LOGE("AccessibilityClientJni: call UnregisterStateListener failed");
+        env->ExceptionDescribe();
+        env->ExceptionClear();
+    }
 }
 } // namespace OHOS::Plugin

@@ -36,10 +36,6 @@ private AccessibilityManager.AccessibilityStateChangeListener stateChangeListene
  */
 public Accessibility(Context context) {
     this.mContext = context;
-    if (this.accessibilityManager == null) {
-        this.accessibilityManager =
-            (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
-    }
     nativeInit();
 }
 
@@ -49,8 +45,9 @@ public Accessibility(Context context) {
  * @return boolean
  */
 public boolean isAccessibilityEnabled() {
-    if (accessibilityManager != null) {
-        return accessibilityManager.isEnabled();
+    getSystemService();
+    if (this.accessibilityManager != null) {
+        return this.accessibilityManager.isEnabled();
     }
     return false;
 }
@@ -67,7 +64,8 @@ public void registerAccessibilityStateListener() {
             }
         };
     }
-    if (this.stateChangeListener != null) {
+    getSystemService();
+    if (this.accessibilityManager != null && this.stateChangeListener != null) {
         this.accessibilityManager.addAccessibilityStateChangeListener(this.stateChangeListener);
     }
 }
@@ -76,9 +74,17 @@ public void registerAccessibilityStateListener() {
  * Unregisters the accessibility state listener if it is currently registered.
  */
 public void unRegisterAccessibilityStateListener() {
+    getSystemService();
     if (this.accessibilityManager != null && this.stateChangeListener != null) {
         this.accessibilityManager.removeAccessibilityStateChangeListener(this.stateChangeListener);
         this.stateChangeListener = null;
+    }
+}
+
+private void getSystemService() {
+    if (this.accessibilityManager == null) {
+        this.accessibilityManager =
+            (AccessibilityManager) this.mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
     }
 }
 

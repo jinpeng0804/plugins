@@ -22,16 +22,16 @@
 #include <unordered_map>
 
 namespace OHOS::Plugin {
-class AccessibilitySystemAbilityClientJni {
+class AccessibilityClientJni {
 public:
-    AccessibilitySystemAbilityClientJni() = default;
-    ~AccessibilitySystemAbilityClientJni() = default;
+    AccessibilityClientJni() = default;
+    ~AccessibilityClientJni() = default;
     static bool Register(void* env);
     static void NativeInit(JNIEnv* env, jobject jobj);
     static bool IsEnable();
-    static bool RegisterAccessibilityStateListener();
-    static void UnregisterAccessibilityStateListener();
-    static void OnAccessibilityStateChangedCallback(JNIEnv* env, jobject jobj, bool state);
+    static bool RegisterStateListener();
+    static void UnregisterStateListener();
+    static void OnStateChangedCallback(JNIEnv* env, jobject jobj, bool state);
 };
 } // namespace OHOS::Plugin
 #endif // PLUGIN_ACCESSIBILITY_ANDROID_ACCESSIBILITY_SYSTEM_ABILITY_CLIENT_JNI_H

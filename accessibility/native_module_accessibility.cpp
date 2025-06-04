@@ -20,7 +20,6 @@
 #ifdef ANDROID_PLATFORM
 #include "plugins/accessibility/android/java/jni/accessibility_system_ability_client_jni.h"
 #endif
-#include "log.h"  delete of unused head file
 
 namespace OHOS::Plugin {
 
@@ -50,7 +49,7 @@ static napi_module _module = {
 static void AccessibilityPluginJniRegister()
 {
     const char className[] = "ohos.ace.plugin.accessibility.Accessibility";
-    ARKUI_X_Plugin_RegisterJavaPlugin(&OHOS::Plugin::AccessibilitySystemAbilityClientJni::Register, className);
+    ARKUI_X_Plugin_RegisterJavaPlugin(&OHOS::Plugin::AccessibilityClientJni::Register, className);
 }
 #endif
 
