@@ -24,7 +24,10 @@
 #include "stat_n_exporter.h"
 #include "stream_n_exporter.h"
 #include "class_randomaccessfile/randomaccessfile_n_exporter.h"
-
+#include "class_atomicfile/atomicfile_n_exporter.h"
+#ifndef IOS_PLATFORM
+#include "class_watcher/watcher_n_exporter.h"
+#endif
 using namespace std;
 
 namespace OHOS {
@@ -42,7 +45,10 @@ static napi_value Export(napi_env env, napi_value exports)
     products.emplace_back(make_unique<StatNExporter>(env, exports));
     products.emplace_back(make_unique<StreamNExporter>(env, exports));
     products.emplace_back(make_unique<RandomAccessFileNExporter>(env, exports));
-
+    products.emplace_back(make_unique<AtomicFileNExporter>(env, exports));
+#ifndef IOS_PLATFORM
+    products.emplace_back(make_unique<WatcherNExporter>(env, exports));
+#endif
     for (auto &&product : products) {
         if (!product->Export()) {
             HILOGE("INNER BUG. Failed to export class %{public}s for module fileio", product->GetClassName().c_str());

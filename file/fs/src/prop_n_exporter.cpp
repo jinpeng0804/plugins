@@ -32,7 +32,7 @@
 #include "create_streamrw.h"
 #include "dup.h"
 #include "fdatasync.h"
-#include "file_utils.h"
+#include "fdopen_stream.h"
 #include "filemgmt_libn.h"
 #include "fsync.h"
 #include "fs_utils.h"
@@ -55,6 +55,9 @@
 #include "copydir.h"
 #include "create_randomaccessfile.h"
 #include "class_randomaccessfile/randomaccessfile_n_exporter.h"
+#ifndef IOS_PLATFORM
+#include "watcher.h"
+#endif
 
 namespace OHOS {
 namespace FileManagement {
@@ -700,6 +703,7 @@ bool PropNExporter::ExportSync()
             NVal::DeclareNapiFunction("closeSync", Close::Sync),
             NVal::DeclareNapiFunction("copyFileSync", CopyFile::Sync),
             NVal::DeclareNapiFunction("fdatasyncSync", Fdatasync::Sync),
+            NVal::DeclareNapiFunction("fdopenStreamSync", FdopenStream::Sync),
             NVal::DeclareNapiFunction("fsyncSync", Fsync::Sync),
             NVal::DeclareNapiFunction("listFileSync", ListFile::Sync),
             NVal::DeclareNapiFunction("lseek", Lseek::Sync),
@@ -760,6 +764,10 @@ bool PropNExporter::ExportAsync()
             NVal::DeclareNapiFunction("moveDir", MoveDir::Async),
             NVal::DeclareNapiFunction("copyDir", CopyDir::Async),
             NVal::DeclareNapiFunction("createRandomAccessFile", CreateRandomAccessFile::Async),
+            NVal::DeclareNapiFunction("fdopenStream", FdopenStream::Async),
+#ifndef IOS_PLATFORM
+            NVal::DeclareNapiFunction("createWatcher", Watcher::CreateWatcher),
+#endif
         });
 }
 
